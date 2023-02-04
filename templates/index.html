@@ -1,0 +1,61 @@
+<html>
+  <head>
+    <title>ChatGPT Web App</title>
+    <style>
+        body {
+          font-family: sans-serif;
+          padding: 1em;
+        }
+        h1 {
+          text-align: center;
+        }
+        textarea,
+        #response {
+          width: 100%;
+          min-height: 10em;
+          font-size: 1.2em;
+          padding: 0.5em;
+          border: 1px solid #ddd;
+          box-sizing: border-box;
+          margin-bottom: 1em;
+        }
+        input[type="submit"] {
+          background-color: #4CAF50;
+          color: white;
+          padding: 0.5em 1em;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+        #response {
+          background-color: #f2f2f2;
+          border-radius: 5px;
+          padding: 1em;
+        }
+      </style>
+    <script>
+      function sendRequest() {
+        var userInput = document.querySelector("textarea[name=user_input]").value;
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/response", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+          if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            document.querySelector("#response").innerHTML = this.responseText;
+          }
+        };
+        xhr.send("user_input=" + encodeURIComponent(userInput));
+        return false;
+      }
+    </script>
+  </head>
+  <body>
+    <h1>ChatGPT Web App</h1>
+    <form onsubmit="return sendRequest()">
+      <textarea name="user_input"></textarea><br>
+      <input type="submit" value="Submit">
+    </form>
+    <hr>
+    <div id="response"></div>
+  </body>
+</html>
